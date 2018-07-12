@@ -7,14 +7,17 @@
         </div>
 
         <div class="col-md-8">
-            {% if product.hasLowStock() %}
-                <span class="badge badge-warning">库存少</span>
-            {% endif %}
+            <h3>{{ product.title }}
+                <h5>
+                    {% if product.hasLowStock() %}
+                        <span class="badge badge-warning">库存少</span>
+                    {% endif %}
 
-            {% if product.outOfStock() %}
-                <span class="badge badge-danger">缺货</span>
-            {% endif %}
-            <h3>{{ product.title }}</h3>
+                    {% if product.outOfStock() %}
+                        <span class="badge badge-danger">缺货</span>
+                    {% endif %}
+                </h5>
+            </h3>
             <p>{{ product.description }}</p>
             {% if product.inStock() %}
                 <a href="#" class="btn btn-primary btn-sm">加入购物车</a>
