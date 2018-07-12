@@ -8,8 +8,13 @@
 
 namespace App;
 
-use Slim\App as BaseApp;
+use DI\ContainerBuilder;
+use DI\Bridge\Slim\App as BaseApp;
 
 class App extends BaseApp
 {
+    protected function configureContainer(ContainerBuilder $builder)
+    {
+        $builder->addDefinitions(__DIR__ . '/../config/my-config-file.php');
+    }
 }

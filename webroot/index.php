@@ -7,7 +7,10 @@
  */
 require __DIR__.'/../config/bootstrap.php';
 
-$app->get('/github/basic_php_framework.git/', function ($request, $response, $args) {
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+
+$app->get('/github/basic_php_framework.git/', function (Request $request, Response $response) {
     return $response->getBody()->write('app start');
 });
 
