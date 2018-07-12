@@ -20,7 +20,7 @@
             </h3>
             <p>{{ product.description }}</p>
             {% if product.inStock() %}
-                <a href="#" class="btn btn-primary btn-sm">加入购物车</a>
+                <a href="{{ path_for('cart.add', { slug:product.slug, quantity:1 }) }}" class="btn btn-primary btn-sm">加入购物车</a>
             {% endif %}
         </div>
     </div>

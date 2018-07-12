@@ -8,16 +8,19 @@
 use Slim\Views\Twig;
 use function DI\get;
 use App\Model\Products;
+use App\Core\SessionStorage;
+use App\Core\Utility\Basket;
 use Slim\Views\TwigExtension;
 use Interop\Container\ContainerInterface;
+use App\Core\Interfaces\StorageInterface;
 
 return [
     'settings.displayErrorDetails' => true,
 
     'router' => get(Slim\Router::class),
 
-    Twig::class => function(ContainerInterface $c){
-        $twig = new Twig(__DIR__.'/../src/Template', [
+    Twig::class => function (ContainerInterface $c) {
+        $twig = new Twig(__DIR__ . '/../src/Template', [
             'cache' => false
         ]);
 
@@ -29,8 +32,17 @@ return [
         return $twig;
     },
 
+    StorageInterface::class => function () {
+        return new SessionStorage('bpf');
+    },
+    Basket::class => function (ContainerInterface $c) {
+        return new Basket(
+            $c->get(SessionStorage::class),
+            $c->get(Products::class)
+        );
+    },
 
-    Products::class => function(){
+    Products::class => function () {
         return new Products();
     }
 ];

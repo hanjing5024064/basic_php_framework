@@ -10,3 +10,5 @@ $basePath = '/github/basic_php_framework.git/';//生产环境设置为'/'
 $app->get($basePath, ['App\Controller\HomeController', 'index'])->setName('home');
 
 $app->get($basePath.'product/{slug}', ['App\Controller\ProductController', 'view'])->setName('product.view');
+$app->get($basePath.'cart', ['App\Controller\CartController', 'index'])->setName('cart.index');
+$app->get($basePath.'cart/add/{slug}/{quantity}', ['App\Controller\CartController', 'add'])->setName('cart.add');
