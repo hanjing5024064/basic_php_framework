@@ -8,9 +8,11 @@
 use Slim\App;
 use Slim\Views\Twig;
 use function DI\get;
+use App\Model\Products;
 
 return [
     'settings.displayErrorDetails' => true,
+
     Twig::class => function (App $app) {//https://github.com/slimphp/Twig-View and http://php-di.org/doc/frameworks/slim.html
         $c = $app->getContainer();
         $twig = new \Slim\Views\Twig(__DIR__.'/../src/Template', [
@@ -24,4 +26,8 @@ return [
 
         return $twig;
     },
+
+    Products::class => function(){
+        return new Products();
+    }
 ];
