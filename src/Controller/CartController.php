@@ -11,6 +11,7 @@ use Slim\Router;
 use Slim\Views\Twig;
 use App\Model\Products;
 use App\Core\Utility\Basket;
+use App\Core\Exceptions\OutStockException;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class CartController
@@ -25,10 +26,12 @@ class CartController
     }
 
     public function index(Response $response, Twig $view){
+        $this->basket->refresh();
+
         return $view->render($response, 'cart/index.twig');
     }
 
-    public function add($slug, $quantity, Response $response, Router $router)
+    public function add($slug, $quantity, Response $response, Router $router, Twig $view)
     {
         $product = $this->product->where('slug', $slug)->first();
 
@@ -36,7 +39,15 @@ class CartController
             return $response->withRedirect($router->pathFor('home'));
         }
 
-        die('add');
+        try{
+            $this->basket->add($product, $quantity);
+        }catch (OutStockException $e){
+            return $response->withRedirect($router->pathFor('product.view', [
+                'slug' => $slug,
+            ]));
+        }
+
+        return $response->withRedirect($router->pathFor('cart.index'));
     }
 
 }

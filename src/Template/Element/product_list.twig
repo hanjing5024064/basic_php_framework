@@ -2,6 +2,7 @@
     <a href="product/{{ product.slug }}"><img class="card-img-top" src="{{ product.image }}" alt="{{ product.title }} 图片"></a>
     <div class="card-body">
         <h5 class="card-title"><a href="product/{{ product.slug }}">{{ product.title }}</a></h5>
+        <h6 class="card-title price"><span class="iconfont icon-renminbi" aria-hidden="true"></span>{{ product.price }}</h6>
         <p class="card-text">{{ product.description }}</p>
     </div>
 </div>

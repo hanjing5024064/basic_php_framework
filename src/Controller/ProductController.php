@@ -31,7 +31,7 @@ class ProductController
         }
 
         return $this->view->render($response, 'Product/view.twig', [
-            'product' => $product
+            'product' => $product,
         ]);
     }
 }

@@ -29,6 +29,8 @@ return [
             $c->get('request')->getUri()
         ));
 
+        $twig->getEnvironment()->addGlobal('basket', $c->get(Basket::class));
+
         return $twig;
     },
 

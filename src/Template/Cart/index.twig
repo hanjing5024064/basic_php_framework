@@ -1,1 +1,56 @@
-cart index
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            {% if basket.itemCount %}
+                <div class="well">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>商品</th>
+                            <th>价格</th>
+                            <th>数量</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in basket.all %}
+                            <tr>
+                                <td><a href="{{ path_for('product.view', { slug: item.slug }) }}">{{ item.title }}</a></td>
+                                <td>{{ item.price | number_format(2) }}</td>
+                                <td>{{ item.quantity }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p> You have no items in your cart. <a href="{{ path_for('home') }}">Start shopping</a></p>
+
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            {% if basket.itemCount and basket.subTotal %}
+                <div class="well">
+                    <h4>费用</h4>
+                    <hr>
+                    <table class="table">
+                        <tr>
+                            <td>小计</td>
+                            <td>{{ basket.subTotal | number_format(2) }}</td>
+                        </tr>
+                        <tr>
+                            <td>运费</td>
+                            <td>5.00</td>
+                        </tr>
+                        <tr>
+                            <td class="alert-success">总计</td>
+                            <td class="alert-success">{{ (basket.subTotal + 5) | number_format(2) }}</td>
+                        </tr>
+                    </table>
+                    <a href="#" class="btn btn-primary">下单</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
