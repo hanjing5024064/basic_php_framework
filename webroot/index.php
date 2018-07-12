@@ -7,11 +7,11 @@
  */
 require __DIR__.'/../config/bootstrap.php';
 
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Views\Twig;
 
-$app->get('/github/basic_php_framework.git/', function (Request $request, Response $response) {
-    return $response->getBody()->write('app start');
+$app->get('/github/basic_php_framework.git/', function (Response $response, Twig $twig) {
+    return $twig->render($response, 'home.twig');
 });
 
 $app->run();
