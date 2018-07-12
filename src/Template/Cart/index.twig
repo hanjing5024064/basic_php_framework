@@ -30,27 +30,8 @@
             {% endif %}
         </div>
         <div class="col-md-4">
-            {% if basket.itemCount and basket.subTotal %}
-                <div class="well">
-                    <h4>费用</h4>
-                    <hr>
-                    <table class="table">
-                        <tr>
-                            <td>小计</td>
-                            <td>{{ basket.subTotal | number_format(2) }}</td>
-                        </tr>
-                        <tr>
-                            <td>运费</td>
-                            <td>5.00</td>
-                        </tr>
-                        <tr>
-                            <td class="alert-success">总计</td>
-                            <td class="alert-success">{{ (basket.subTotal + 5) | number_format(2) }}</td>
-                        </tr>
-                    </table>
-                    <a href="#" class="btn btn-primary">下单</a>
-                </div>
-            {% endif %}
+            {% include 'Element/order_summary.twig' %}
+            <a href="{{ path_for('order.index') }}" class="btn btn-primary">下单</a>
         </div>
     </div>
 {% endblock %}

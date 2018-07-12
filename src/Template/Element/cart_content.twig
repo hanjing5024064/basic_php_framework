@@ -1,0 +1,8 @@
+<table class="table">
+	{% for items in basket.all %}
+		<tr>
+			<td>{{ items.title }}</td>
+			<td>{{ items.quantity }}</td>
+		</tr>
+	{% endfor %}
+</table>
