@@ -6,6 +6,8 @@
  * Time: 10:27 AM
  */
 use App\App;
+use Slim\Views\Twig;
+use App\Core\Middleware\ValidationErrorsMiddleware;
 
 session_start();
 
@@ -15,3 +17,7 @@ $app = new App();
 
 require 'routes.php';
 require 'database.php';
+
+$container = $app->getContainer();
+
+$app->add(new ValidationErrorsMiddleware($container->get(Twig::class)));
