@@ -16,16 +16,30 @@
                         <tbody>
                         {% for item in basket.all %}
                             <tr>
-                                <td><a href="{{ path_for('product.view', { slug: item.slug }) }}">{{ item.title }}</a></td>
+                                <td><a href="{{ path_for('product.view', { slug: item.slug }) }}">{{ item.title }}</a>
+                                </td>
                                 <td>{{ item.price | number_format(2) }}</td>
-                                <td>{{ item.quantity }}</td>
+                                <td>
+                                    <form action="{{ path_for('cart.update', { slug: item.slug}) }}" method="post"
+                                          class="form-inline">
+                                        <select name="quantity" class="form-control input-sm">
+                                            {% for num in 1..item.stock %}
+                                            <option value="{{ num }}" {% if num== item.quantity %} selected="selected" {% endif %}>{{ num }}
+                                            <option>
+                                                {% endfor %}
+                                            <option value="0">None</optiton>
+                                        </select>
+                                        <input type="submit" value="Update" class="btn btn-primary btn-sm">
+                                    </form>
+                                </td>
+
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
             {% else %}
-                <p> You have no items in your cart. <a href="{{ path_for('home') }}">Start shopping</a></p>
+                <p> 购物车中空空如也, <a href="{{ path_for('home') }}">开始购物:)g</a></p>
 
             {% endif %}
         </div>
