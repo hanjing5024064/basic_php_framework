@@ -54,9 +54,7 @@ class OrderController
         $validatResult = $this->validator->validate($request, OrderForm::rules());
 
         if(!$validatResult){//校验失败
-            var_dump($_SESSION['errors']);
-            die('校验失败');
-//            return $response->withRedirect($this->router->pathFor('order.index'));
+            return $response->withRedirect($this->router->pathFor('order.index'));
         }
 
         die('校验成功');

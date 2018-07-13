@@ -8,6 +8,7 @@
 use App\App;
 use Slim\Views\Twig;
 use App\Core\Middleware\ValidationErrorsMiddleware;
+use App\Core\Middleware\OldInputMiddleware;
 
 session_start();
 
@@ -21,3 +22,4 @@ require 'database.php';
 $container = $app->getContainer();
 
 $app->add(new ValidationErrorsMiddleware($container->get(Twig::class)));
+$app->add(new OldInputMiddleware($container->get(Twig::class)));

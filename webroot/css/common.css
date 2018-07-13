@@ -5,3 +5,8 @@
 .price{
     color: #dd4444;
 }
+body{
+    padding-bottom: 60px;
+}
+.has-error{border: 1px solid red}
+.error{color: red}
