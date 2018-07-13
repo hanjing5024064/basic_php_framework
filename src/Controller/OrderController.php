@@ -7,6 +7,9 @@
  */
 namespace App\Controller;
 
+use App\Model\Addresses;
+use App\Model\Customers;
+use App\Model\Orders;
 use Slim\Router;
 use Slim\Views\Twig;
 use App\Model\Products;
@@ -43,7 +46,7 @@ class OrderController
     }
 
 
-    public function create(Request $request, Response $response, Twig $view)
+    public function create(Request $request, Response $response, Twig $view, Customers $customer, Addresses $address, Orders $order)
     {
         $this->basket->refresh();
 
@@ -57,6 +60,41 @@ class OrderController
             return $response->withRedirect($this->router->pathFor('order.index'));
         }
 
-        die('校验成功');
+        //保存订单
+        $hash = bin2hex(random_bytes(32));
+        $customer = $customer->firstOrCreate([
+            'cellphone' => $request->getParam('cellphone'),
+            'name' => $request->getParam('name'),
+        ]);
+
+        $address = $address->firstOrCreate([
+            'address' => $request->getParam('address'),
+            'city' => $request->getParam('city'),
+        ]);
+
+        $order = $customer->orders()->create([
+            'hash' => $hash,
+            'paid' => false,
+            'total' => $this->basket->subTotal() + 5,
+            'addresses_id' => $address->id,
+        ]);
+
+        $allItems = $this->basket->all();
+        $order->products()->saveMany(
+            $allItems,
+            // ['quantity' => 1,5,3]
+            $this->getQuantities($allItems)
+        );
+    }
+
+    protected function getQuantities($items)
+    {
+        $quantity = [];
+
+        foreach($items as $item){
+            $quantity[] = ['quantity' => $item->quantity];
+        }
+
+        return $quantity;
     }
 }

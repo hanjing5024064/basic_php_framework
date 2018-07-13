@@ -16,8 +16,7 @@ class OrderForm
         return [
             'cellphone' => v::phone(),
             'name' => v::alpha(' '),
-            'address1' => v::alnum(' -'),
-            'address2' => v::optional(v::alnum(' -')),
+            'address' => v::alnum(' -'),
             'city' => v::alnum(' '),
         ];
     }

@@ -7,6 +7,7 @@
  */
 namespace App\Model;
 
+use App\Model\Orders;
 use Illuminate\Database\Eloquent\Model;
 
 class Products extends Model
@@ -28,5 +29,10 @@ class Products extends Model
     }
     public function hasStock($quantity){
         return $this->stock >= $quantity;
+    }
+
+    public function order()
+    {
+        return $this->belongsToMany(Orders::class, 'orders_products')->withPivot('quantity');
     }
 }

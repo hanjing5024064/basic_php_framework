@@ -7,7 +7,10 @@
  */
 use Slim\Views\Twig;
 use function DI\get;
+use App\Model\Orders;
 use App\Model\Products;
+use App\Model\Customers;
+use App\Model\Addresses;
 use App\Core\SessionStorage;
 use App\Core\Utility\Basket;
 use Slim\Views\TwigExtension;
@@ -53,5 +56,14 @@ return [
 
     Products::class => function () {
         return new Products();
+    },
+    Orders::class => function () {
+        return new Orders();
+    },
+    Customers::class => function () {
+        return new Customers();
+    },
+    Addresses::class => function () {
+        return new Addresses();
     }
 ];
