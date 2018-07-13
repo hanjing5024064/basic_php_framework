@@ -11,7 +11,8 @@ use App\Model\Products;
 use App\Core\SessionStorage;
 use App\Core\Utility\Basket;
 use Slim\Views\TwigExtension;
-use Interop\Container\ContainerInterface;
+//use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use App\Core\Interfaces\StorageInterface;
 use App\Core\Interfaces\ValidatorInterface;
 use App\Core\Utility\Validator;
@@ -19,7 +20,7 @@ use App\Core\Utility\Validator;
 return [
     'settings.displayErrorDetails' => true,
 
-    'router' => get(Slim\Router::class),
+//    'router' => get(Slim\Router::class),
 
     Twig::class => function (ContainerInterface $c) {
         $twig = new Twig(__DIR__ . '/../src/Template', [
