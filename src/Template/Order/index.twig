@@ -39,8 +39,8 @@
                 <div class="form-group">
                     <label for="address">地址</label>
                     <input type="address" name="address" id="address"
-                           class="form-control {% if errors.address1 %}has-error{% endif %}" value="{{ old.address1 }}">
-                    {% if errors.address1 %}
+                           class="form-control {% if errors.address %}has-error{% endif %}" value="{{ old.address }}">
+                    {% if errors.address %}
                         <span class="error">
 							请填写地址
 						        </span>
