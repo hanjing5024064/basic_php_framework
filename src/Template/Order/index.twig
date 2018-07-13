@@ -1,8 +1,8 @@
 {% extends 'layout.twig' %}
 
 {% block content %}
-    <form action="#" method="post">
-        <div class="row">
+    <form action="{{ path_for('order.create') }}" method="post">
+    <div class="row">
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-6">

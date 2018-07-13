@@ -14,4 +14,4 @@ $app->get($basePath.'cart', ['App\Controller\CartController', 'index'])->setName
 $app->get($basePath.'cart/add/{slug}/{quantity}', ['App\Controller\CartController', 'add'])->setName('cart.add');
 
 $app->get($basePath.'order', ['App\Controller\OrderController', 'index'])->setName('order.index');
-$app->post('/order', ['Cart\Controllers\OrderController', 'create'])->setName('order.create');
+$app->post($basePath.'order', ['App\Controller\OrderController', 'create'])->setName('order.create');

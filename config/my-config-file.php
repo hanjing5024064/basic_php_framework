@@ -13,6 +13,8 @@ use App\Core\Utility\Basket;
 use Slim\Views\TwigExtension;
 use Interop\Container\ContainerInterface;
 use App\Core\Interfaces\StorageInterface;
+use App\Core\Interfaces\ValidatorInterface;
+use App\Core\Utility\Validator;
 
 return [
     'settings.displayErrorDetails' => true,
@@ -32,6 +34,10 @@ return [
         $twig->getEnvironment()->addGlobal('basket', $c->get(Basket::class));
 
         return $twig;
+    },
+
+    ValidatorInterface::class => function (){
+        return new Validator();
     },
 
     StorageInterface::class => function () {
