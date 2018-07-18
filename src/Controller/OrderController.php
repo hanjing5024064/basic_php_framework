@@ -7,12 +7,13 @@
  */
 namespace App\Controller;
 
-use App\Model\Addresses;
-use App\Model\Customers;
-use App\Model\Orders;
 use Slim\Router;
 use Slim\Views\Twig;
+use App\Model\Orders;
+use Braintree\Gateway;
 use App\Model\Products;
+use App\Model\Addresses;
+use App\Model\Customers;
 use App\Core\Utility\Basket;
 use App\Core\Utility\Form\OrderForm;
 use App\Core\Interfaces\ValidatorInterface;
@@ -45,6 +46,18 @@ class OrderController
         return $view->render($response, 'order/index.twig');
     }
 
+    public function show($hash, Request $request, Response $response, Twig $view, Orders $order)
+    {
+        $order = $order->with(['addresses', 'products'])->where('hash', $hash)->first();
+
+        if(!$order){
+            return $response->withRedirect($this->router->pathFor('home'));
+        }
+
+        return $view->render($response, 'order/show.twig', [
+            'order' => $order,
+        ]);
+    }
 
     public function create(Request $request, Response $response, Twig $view, Customers $customer, Addresses $address, Orders $order)
     {
@@ -52,6 +65,11 @@ class OrderController
 
         if(!$this->basket->subTotal()){
             return $response->withRedirect($this->router->pathFor('cart.index'));
+        }
+
+        //非支付则返回订单首页
+        if(!$request->getParam('payment_method_nonce')){
+            return $request->withRedirect($this->router->pathFor('order.index'));
         }
 
         $validatResult = $this->validator->validate($request, OrderForm::rules());
@@ -85,6 +103,12 @@ class OrderController
             // ['quantity' => 1,5,3]
             $this->getQuantities($allItems)
         );
+
+        /*
+        通过braintree实现支付
+        */
+
+        //todo 
     }
 
     protected function getQuantities($items)

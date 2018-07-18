@@ -8,6 +8,7 @@
 use Slim\Views\Twig;
 use function DI\get;
 use App\Model\Orders;
+use App\Model\Payments;
 use App\Model\Products;
 use App\Model\Customers;
 use App\Model\Addresses;
@@ -15,10 +16,10 @@ use App\Core\SessionStorage;
 use App\Core\Utility\Basket;
 use Slim\Views\TwigExtension;
 //use Interop\Container\ContainerInterface;
+use App\Core\Utility\Validator;
 use Psr\Container\ContainerInterface;
 use App\Core\Interfaces\StorageInterface;
 use App\Core\Interfaces\ValidatorInterface;
-use App\Core\Utility\Validator;
 
 return [
     'settings.displayErrorDetails' => true,
@@ -65,5 +66,8 @@ return [
     },
     Addresses::class => function () {
         return new Addresses();
-    }
+    },
+    Payments::class => function(){
+        return new Payments;
+    },
 ];
