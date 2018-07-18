@@ -15,7 +15,10 @@ use App\Model\Products;
 use App\Model\Addresses;
 use App\Model\Customers;
 use App\Core\Utility\Basket;
+use App\Core\Handlers\UpdateStock;
 use App\Core\Handlers\EmptyBasket;
+use App\Core\Handlers\MarkOrderPaid;
+use App\Core\Handlers\RecordSuccessfulPayment;
 use App\Core\Events\OrderWasCreated;
 use App\Core\Utility\Form\OrderForm;
 use App\Core\Interfaces\ValidatorInterface;
@@ -118,19 +121,27 @@ class OrderController
             ]
         ]);
 
-        $this->basket->clear();//测试Event和Handler
         //增加订单事件, 及handler机制, 可以在订单创建之前进行需要的操作
         $event = new OrderWasCreated($order, $this->basket);
-        $event->attach([
-            new EmptyBasket()
-        ]);
-        $event->dispatch();
 
         if ($result->success) {
-            // See $result->transaction for details
+            // 支付成功
+
         } else {
-            // Handle errors
+            // 支付失败
+            $event->attach(new \Cart\Handlers\RecordFailedPayment);
+            $event->dispatch();
+
+            return $response->withRedirect($this->router->pathFor('order.index'));
         }
+
+        $event->attach([
+            new MarkOrderPaid(),
+            new RecordSuccessfulPayment($result->transaction->id),
+            new UpdateStock(),
+            new EmptyBasket(),
+        ]);
+        $event->dispatch();
     }
 
     protected function getQuantities($items)

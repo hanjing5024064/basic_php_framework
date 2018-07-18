@@ -10,6 +10,7 @@ namespace App\Model;
 use App\Model\Customers;
 use App\Model\Products;
 use App\Model\Addresses;
+use App\Model\Payments;
 use Illuminate\Database\Eloquent\Model;
 
 class Orders extends Model
@@ -34,5 +35,10 @@ class Orders extends Model
     public function products()
     {
         return $this->belongsToMany(Products::class, 'orders_products')->withPivot('quantity');
+    }
+
+    public function payments()
+    {
+        return $this->hasOne(Payments::class);
     }
 }
