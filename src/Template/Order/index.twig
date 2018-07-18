@@ -54,19 +54,18 @@
                 </div>
             </div>
 
-            <!--支付-->
-            <div id="payment"></div>
 
             <div class="col-md-4">
-                <div class="well">
-                    {% include 'Element/order_summary.twig' %}
-                    <button type="submit" class="btn btn-primary">支付</button>
-                </div>
+                {% include 'Element/order_summary.twig' %}
+                <!--支付-->
+                <div id="payment"></div>
+                <button type="submit" class="btn btn-primary">支付</button>
             </div>
         </div>
     </form>
 {% endblock %}
 {% block scripts %}
+    <script src="https://js.braintreegateway.com/js/braintree-2.24.0.min.js"></script>
     <script>
         $(function () {
             $.ajax({
@@ -74,7 +73,9 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
+                    braintree.setup(data.token, 'dropin', {
+                        container: 'payment'
+                    })
                 }
             });
         })
