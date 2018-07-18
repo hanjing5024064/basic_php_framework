@@ -53,7 +53,7 @@ class OrderController
 
     public function show($hash, Request $request, Response $response, Twig $view, Orders $order)
     {
-        $order = $order->with(['addresses', 'products'])->where('hash', $hash)->first();
+        $order = $order->with(['address', 'products', 'customer'])->where('hash', $hash)->first();
 
         if(!$order){
             return $response->withRedirect($this->router->pathFor('home'));

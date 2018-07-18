@@ -16,5 +16,6 @@ $app->post($basePath.'/cart/update/{slug}', ['App\Controller\CartController', 'u
 
 $app->get($basePath.'order', ['App\Controller\OrderController', 'index'])->setName('order.index');
 $app->post($basePath.'order', ['App\Controller\OrderController', 'create'])->setName('order.create');
+$app->get($basePath.'order/{hash}', ['App\Controller\OrderController', 'show'])->setName('order.show');
 
 $app->get($basePath.'braintree/token', ['App\Controller\BraintreeController', 'token'])->setName('braintree.token');

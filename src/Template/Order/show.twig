@@ -1,33 +1,57 @@
-{% extends 'templates/app.twig' %}
+{% extends 'layout.twig' %}
 
 {% block content %}
-	<div class="row">
-		<div class="col-md-12">
-			<h3>Order #{{ order.id }}</h3>
-			<hr>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>订单 #{{ order.id }}</h3>
+            <hr>
 
-			<div class="row">
-				<div class="col-md-6">
-					<h4>Shipping to</h4>
-					{{ order.address.address1 }}<br>
-					{{ order.address.address2 }}<br>
-					{{ order.address.city }}<br>
-					{{ order.address.postal_code }}<br>
-				</div>
-				<div class="col-md-6">
-					<h4>Items</h4>
-					{% for product in order.products %}
-						<a href="{{ path_for('product.get', { slug: product.slug }) }}">{{ product.title }}</a> (x {{ product.pivot.quantity }})<br>
-					{% endfor %}
-				</div>
-			</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>快递信息</h4>
+                    <table class="table">
+                        <tr>
+                            <td>收件人:</td>
+                            <td>{{ order.customer.name }}</td>
+                        </tr>
+                        <tr>
+                            <td>电话:</td>
+                            <td>{{ order.customer.cellphone }}</td>
+                        </tr>
+                        <tr>
+                            <td>城市:</td>
+                            <td>{{ order.address.city }}</td>
+                        </tr>
+                        <tr>
+                            <td>地址:</td>
+                            <td>{{ order.address.address }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h4>清单</h4>
+                    <table class="table">
+                        <tr>
+                            <th>名称</th><th>数量</th>
+                        </tr>
+                        {% for product in order.products %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path_for('product.view', { slug: product.slug }) }}">{{ product.title }}</a>
+                                </td>
+                                <td>(x {{ product.pivot.quantity }})</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
 
-			<hr>
+            <hr>
 
-			<p>
-				Shipping: 5.00 <br>
-				<strong>Order total: {{ (order.total) | number_format(2)}}</strong>
-			</p>
-		</div>
-	</div>
+            <p>
+                快递费: 5.00 <br>
+                <strong>总计: {{ (order.total) | number_format(2) }}</strong>
+            </p>
+        </div>
+    </div>
 {% endblock %}

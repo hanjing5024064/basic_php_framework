@@ -24,12 +24,12 @@ class Orders extends Model
 
     public function address()
     {
-        return $this->belongTo(Addresses::class);
+        return $this->belongsTo(Addresses::class, 'addresses_id');
     }
 
     public function customer()
     {
-        return $this->belongTo(Customers::class);
+        return $this->belongsTo(Customers::class, 'customers_id');
     }
 
     public function products()
