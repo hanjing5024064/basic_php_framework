@@ -15,6 +15,8 @@ use App\Model\Products;
 use App\Model\Addresses;
 use App\Model\Customers;
 use App\Core\Utility\Basket;
+use App\Core\Handlers\EmptyBasket;
+use App\Core\Events\OrderWasCreated;
 use App\Core\Utility\Form\OrderForm;
 use App\Core\Interfaces\ValidatorInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -116,7 +118,14 @@ class OrderController
             ]
         ]);
 
-        var_dump($result);
+        $this->basket->clear();//测试Event和Handler
+        //增加订单事件, 及handler机制, 可以在订单创建之前进行需要的操作
+        $event = new OrderWasCreated($order, $this->basket);
+        $event->attach([
+            new EmptyBasket()
+        ]);
+        $event->dispatch();
+
         if ($result->success) {
             // See $result->transaction for details
         } else {
