@@ -12,6 +12,7 @@ use App\Model\Payments;
 use App\Model\Products;
 use App\Model\Customers;
 use App\Model\Addresses;
+use Braintree\Gateway;
 use App\Core\SessionStorage;
 use App\Core\Utility\Basket;
 use Slim\Views\TwigExtension;
@@ -69,5 +70,14 @@ return [
     },
     Payments::class => function(){
         return new Payments;
+    },
+
+    Gateway::class => function(){
+        return new Gateway([
+            'environment' => 'sandbox',
+            'merchantId' => 'rdnhxtnwc75bxmc2',
+            'publicKey' => 'dj7sjg4kpftrv8hm',
+            'privateKey' => '29a36a23c5e6c4c012346808d6e757e7'
+        ]);
     },
 ];

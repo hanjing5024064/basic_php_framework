@@ -59,7 +59,7 @@ class OrderController
         ]);
     }
 
-    public function create(Request $request, Response $response, Twig $view, Customers $customer, Addresses $address, Orders $order)
+    public function create(Request $request, Response $response, Twig $view, Customers $customer, Addresses $address, Orders $order, Gateway $gateway)
     {
         $this->basket->refresh();
 
@@ -107,8 +107,21 @@ class OrderController
         /*
         通过braintree实现支付
         */
+        $amount = $this->basket->subTotal() + 5;
+        $result = $gateway->transaction()->sale([
+            'amount' => $amount,
+            'paymentMethodNonce' => $request->getParam('payment_method_nonce'),
+            'options' => [
+                'submitForSettlement' => True
+            ]
+        ]);
 
-        //todo 
+        var_dump($result);
+        if ($result->success) {
+            // See $result->transaction for details
+        } else {
+            // Handle errors
+        }
     }
 
     protected function getQuantities($items)
